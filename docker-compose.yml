@@ -1,7 +1,7 @@
 version: "3"
 services:
-  proxy:
-    container_name: msp-proxy2
+  mspproxy2:
+    container_name: mspproxy2
     image: jwilder/nginx-proxy:latest
     ports:
       - "80:80"
@@ -10,16 +10,15 @@ services:
       - /var/run/docker.sock:/tmp/docker.sock:ro
       - ./web/vhosts.d/:/etc/nginx/conf.d
     links:
-      - mspweb
+      - mspweb2
     networks:
       - msp-network2
-  mspweb:
-    container_name: mspweb
+  mspweb2:
+    container_name: mspweb2
     command: npm run start
     build: ./client
     volumes:
-      - ./data:/app
-      - '/app/node_modules'
+      - ./client:/usr/src/app
     environment:
       VIRTUAL_HOST: ledger.local.mspfamilylending.com
     expose:
@@ -27,7 +26,6 @@ services:
     tty: true
     networks:
         - msp-network2
-
 networks:
     msp-network2:
         driver: bridge
