@@ -13,6 +13,13 @@ services:
       - mspweb2
     networks:
       - msp-network2
+  mspmongo:
+    container_name: mspmongo
+    image: 'bitnami/mongodb:latest'
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./data/db:/bitnami 
   mspweb2:
     container_name: mspweb2
     command: npm run start
