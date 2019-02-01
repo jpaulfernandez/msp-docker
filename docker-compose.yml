@@ -30,6 +30,8 @@ services:
       VIRTUAL_HOST: ledger.local.mspfamilylending.com
     expose:
       - 5000
+    links:
+      - mspmongo
     tty: true
     networks:
         - msp-network2
