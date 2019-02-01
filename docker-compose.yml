@@ -32,6 +32,8 @@ services:
       - 5000
     links:
       - mspmongo
+    depends_on:
+      - mspmongo
     tty: true
     networks:
         - msp-network2
