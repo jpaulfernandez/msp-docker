@@ -14,7 +14,6 @@ services:
     networks:
       - msp-network2
   mspmongo:
-    container_name: mspmongo
     image: 'bitnami/mongodb:latest'
     ports:
       - "27017:27017"
