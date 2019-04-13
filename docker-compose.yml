@@ -13,12 +13,26 @@ services:
       - mspweb2
     networks:
       - msp-network2
-  mspmongo:
-    image: 'bitnami/mongodb:latest'
-    ports:
-      - "27017:27017"
+  mspmysql:
+    container_name: mspmysql
+    image: mysql:5.6
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_DATABASE: msp
     volumes:
-      - ./data/db:/bitnami 
+      - ./data/db:/docker-entrypoint-initdb.d
+    ports:
+      - "3307:3306"      
+    expose:
+      - 3306
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_ROOT_PASSWORD: ''
+      MYSQL_DATABASE: msp
+      MYSQL_USER: root
+      MYSQL_PASSWORD: ''
+    networks:
+      - msp-network2 
   mspweb2:
     container_name: mspweb2
     command: npm run start
@@ -30,9 +44,9 @@ services:
     expose:
       - 5000
     links:
-      - mspmongo
+      - mspmysql
     depends_on:
-      - mspmongo
+      - mspmysql
     tty: true
     networks:
         - msp-network2
